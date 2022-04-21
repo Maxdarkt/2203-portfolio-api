@@ -1,5 +1,6 @@
 <?php
-require_once('./controllers/contact.php');
+require_once( __DIR__ . '/../cors.php');
+require_once 'controllers/sendmail.php';
 
 try {
   if(!empty($_GET['request'])) {
@@ -7,15 +8,23 @@ try {
     switch($url[0]) {
       case 'contact': 
           if(empty($url[1])) {
-            sendEmailContactForm();
+            sendmail();
+          } else {
+            echo 'id';
           }
         break;
-      case 'files': echo 'files';
+      case 'products': 
+        if(empty($url[1])) {
+          // sendmail();
+          echo 'product';
+        } else {
+          echo 'id';
+        }
         break;
-      default: throw new Exception ('Bad endpoint');
+      default: throw new Exception ('Please, Define a valid route.');
     }
   } else {
-    throw new Exception ('Data recovery problem.');
+    throw new Exception ('Please, Define a route.');
   }
 } catch(Exception $e) {
   $erreur = [
@@ -24,3 +33,4 @@ try {
   ];
   print_r($erreur);
 }
+
