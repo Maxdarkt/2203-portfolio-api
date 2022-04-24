@@ -30,19 +30,24 @@ function smtpMailer($to, $from, $from_name, $subject, $body) {
 
 // sendmail form contact
 function sendmail() {
+  if($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    http_response_code(405);
+    echo json_encode(["message" => "The method is not allowed"]);
+    return;
+  } 
   // get informations in POST
-  $request = json_decode(file_get_contents("php://input"));
+  $request = json_decode(file_get_contents('php://input'));
   // the required data is checked
   if(empty($request->lastName) || empty($request->firstName) || empty($request->email) || empty($request->message)) {
     http_response_code(401);
-    echo json_encode(["message" => "Please fill in the mandatory fields of the form."]);
+    echo json_encode(['message' => 'Please fill in the mandatory fields of the form.']);
   }
   // we declare variables
   $from = htmlspecialchars(strip_tags($request->email));
   $lastName = htmlspecialchars(strip_tags($request->lastName));
   $firstName = htmlspecialchars(strip_tags($request->firstName));
   $name = $firstName . ' ' . $lastName;
-  $subject = "Formulaire de contact";
+  $subject = 'Formulaire de contact';
   $message = htmlspecialchars(strip_tags($request->message));
 
   // send mail

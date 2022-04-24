@@ -10,7 +10,7 @@ try {
           if(empty($url[1])) {
             sendmail();
           } else {
-            echo 'id';
+            throw new Exception ('Please, Define a valid route.');
           }
         break;
       case 'products': 
@@ -31,6 +31,7 @@ try {
     'message' => $e->getMessage(),
     'code' => $e->getCode()
   ];
-  print_r($erreur);
+  http_response_code($erreur['code']);
+  echo json_encode($erreur);
 }
 
