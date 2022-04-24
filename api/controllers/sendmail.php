@@ -1,6 +1,5 @@
 <?php
 use PHPMailer\PHPMailer\PHPMailer;
-
 require_once( __DIR__ . '/../../config.php');
 require_once( __DIR__ . '/../../src/PHPMailer-master/src/Exception.php');
 require_once( __DIR__ . '/../../src/PHPMailer-master/src/PHPMailer.php');
