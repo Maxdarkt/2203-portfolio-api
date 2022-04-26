@@ -1,17 +1,21 @@
-on: push
-  name: Publish Website
-  jobs:
-    FTP-Deploy-Action:
-      name: FTP-Deploy-Action
-      runs-on: ubuntu-latest
-      steps:
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 2
-      - name: FTP-Deploy-Action
-        uses: SamKirkland/FTP-Deploy-Action@4.3.0
-        with:
-          server: ftp.mt-develop.com
-          username: u744866482
-          password: ${{ secrets.FTP_PASSWORD }}
-          # local-dir: ./domains/mt-develop.com/public_html/
+name: Deploy Website
+on:
+  push:
+    branches: [master]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    name: Deploy 🚀
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        fetch-depth: 2
+    - name: FTP-Deploy-Action
+      uses: SamKirkland/FTP-Deploy-Action@4.3.0
+      with:
+        server: ftp.mt-develop.com
+        username: u744866482
+        password: ${{ secrets.FTP_PASSWORD }}
+        # local-dir: ./domains/mt-develop.com/public_html/
