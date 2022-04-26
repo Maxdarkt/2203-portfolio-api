@@ -1,3 +1,3 @@
 <?php
-header('Location: https://mt-develop.ch');
+header('Location: https://www.mt-develop.ch');
 exit();
