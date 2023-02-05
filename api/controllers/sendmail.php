@@ -6,21 +6,22 @@ require_once __DIR__ . '/../../src/PHPMailer-master/src/PHPMailer.php';
 require_once __DIR__ . '/../../src/PHPMailer-master/src/SMTP.php';
 
 // function smtp PHPMailer
-function smtpMailer($to, $from, $from_name, $subject, $body) {
+function smtpMailer($to, $to_name, $from, $subject, $body) {
 	$mail = new PHPMailer();  // Cree un nouvel objet PHPMailer
-	$mail->IsSMTP(); // active SMTP
-	$mail->SMTPDebug = 0;  // debogage: 1 = Erreurs et messages, 2 = messages seulement
+	$mail->isSMTP(); // active SMTP
+	$mail->SMTPDebug = 2;  // debogage: 1 = Erreurs et messages, 2 = messages seulement
+	$mail->Host = 'smtp.hostinger.com';
+  $mail->Port = 587;
 	$mail->SMTPAuth = true;  // Authentification SMTP active
-  $mail->SMTPAutoTLS = false;
-	$mail->SMTPSecure = 'ssl'; // Gmail REQUIERT Le transfert securise
-	$mail->Host = 'smtp.gmail.com';
-  $mail->Port = 465;
+  // $mail->SMTPAutoTLS = false;
+	// $mail->SMTPSecure = 'ssl'; // Gmail REQUIERT Le transfert securise
 	$mail->Username = MAIL_USER;
 	$mail->Password = MAIL_PASS;
-	$mail->SetFrom($from, $from_name);
+	$mail->setFrom(MAIL_USER, "MT-DEVELOP");
 	$mail->Subject = $subject;
+  $mail->isHTML(true);
 	$mail->Body = $body;
-	$mail->AddAddress($to);
+	$mail->addAddress($to, $to_name);
 	if(!$mail->Send()) {
 		return 'Mail error: '.$mail->ErrorInfo;
 	} else {
@@ -43,16 +44,50 @@ function sendmail() {
     echo json_encode(['message' => 'Please fill in the mandatory fields of the form.']);
   }
   // we declare variables
-  $from = htmlspecialchars(strip_tags($request->email));
+  $to = htmlspecialchars(strip_tags($request->email));
   $lastName = htmlspecialchars(strip_tags($request->lastName));
   $firstName = htmlspecialchars(strip_tags($request->firstName));
-  $name = $firstName . ' ' . $lastName;
+  $company = htmlspecialchars(strip_tags($request->company));
+  $mobile = htmlspecialchars(strip_tags($request->mobile));
+  $to_name = $firstName . ' ' . $lastName;
   $subject = 'Formulaire de contact';
   $message = htmlspecialchars(strip_tags($request->message));
+  $body = "
+  <html>
+  <head>
+      <title>This is a test HTML email</title>
+  </head>
+  <body>
+      <h1>Vous avez reçu un nouveau message du formulaire de contact</h1>
+      <p>
+        Nom : {$lastName}
+      </p>
+      <p>
+        Prénom : {$firstName}
+      </p>
+      <p>
+        Société : {$company}
+      </p>
+      <p>
+        Mobile : {$mobile}
+      </p>
+      <div>
+        <blockquote>
+          {$message}
+        </blockquote>
+      </div>
+  </body>
+  </html>
+  ";
 
   // send mail
-  $result = smtpmailer(MAIL_USER, $from, $name, $subject, $message);
-  if (true !== $result) {
+  $result = smtpmailer($to, $to_name, MAIL_USER, $subject, $body);
+
+  $test['code'] = 200;
+  $test['message'] = $result;
+  echo json_encode($test);
+
+  if ($result !== true) {
     // erreur -- traiter l'erreur
     http_response_code(500);
     $response['code'] = 500;

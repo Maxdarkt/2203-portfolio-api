@@ -4,12 +4,17 @@ require_once 'controllers/sendmail.php';
 
 cors();
 
+$url = explode("/", filter_var($_SERVER['REQUEST_URI'], FILTER_SANITIZE_URL));
+$method = $_SERVER['REQUEST_METHOD'];
+
+// echo $url[2];
+// echo $method;
+
 try {
-  if(!empty($_GET['request'])) {
-    $url = explode('/', filter_var($_GET['request'], FILTER_SANITIZE_URL));
-    switch($url[0]) {
+  if($url[1] === "api") {
+    switch($url[2]) {
       case 'contact': 
-          if(empty($url[1])) {
+          if($method === "POST") {
             sendmail();
           } else {
             throw new Exception ('Please, Define a valid route.');
