@@ -49,8 +49,12 @@ function sendmail() {
   $email = htmlspecialchars(strip_tags($request->email));
   $lastName = htmlspecialchars(strip_tags($request->lastName));
   $firstName = htmlspecialchars(strip_tags($request->firstName));
-  $company = htmlspecialchars(strip_tags($request->company));
-  $mobile = htmlspecialchars(strip_tags($request->mobile));
+  $company = empty($request->company) ? null : htmlspecialchars(strip_tags($request->company));
+  $mobile = empty($request->mobile) ? null : htmlspecialchars(strip_tags($request->mobile));
+  $address = empty($request->address) ? null : htmlspecialchars(strip_tags($request->address));
+  $postal = empty($request->postal) ? null : htmlspecialchars(strip_tags($request->postal));
+  $city = empty($request->city) ? null : htmlspecialchars(strip_tags($request->city));
+  $project = empty($request->project) ? null : htmlspecialchars(strip_tags($request->project));
   $subject = 'Formulaire de contact';
   $message = htmlspecialchars(strip_tags($request->message));
   $body = "
@@ -75,11 +79,21 @@ function sendmail() {
       <p>
         Email : {$email}
       </p>
-      <div>
-        <blockquote>
-          {$message}
-        </blockquote>
-      </div>
+      <p>
+        Adresse : {$address}
+      </p>
+      <p>
+        Code Postal : {$postal}
+      </p>
+      <p>
+        Ville : {$city}
+      </p>
+      <p>
+        Projet : {$project}
+      </p>
+      <p>
+        Message : {$message}
+      </p>
   </body>
   </html>
   ";
