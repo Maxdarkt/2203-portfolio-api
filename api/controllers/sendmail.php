@@ -6,10 +6,10 @@ require_once __DIR__ . '/../../src/PHPMailer-master/src/PHPMailer.php';
 require_once __DIR__ . '/../../src/PHPMailer-master/src/SMTP.php';
 
 // function smtp PHPMailer
-function smtpMailer($to, $to_name, $from, $subject, $body) {
+function smtpMailer($to, $subject, $body) {
 	$mail = new PHPMailer();  // Cree un nouvel objet PHPMailer
 	$mail->isSMTP(); // active SMTP
-	$mail->SMTPDebug = 2;  // debogage: 1 = Erreurs et messages, 2 = messages seulement
+	$mail->SMTPDebug = 0;  // debogage: 1 = Erreurs et messages, 2 = messages seulement
 	$mail->Host = 'smtp.hostinger.com';
   $mail->Port = 587;
 	$mail->SMTPAuth = true;  // Authentification SMTP active
@@ -21,7 +21,8 @@ function smtpMailer($to, $to_name, $from, $subject, $body) {
 	$mail->Subject = $subject;
   $mail->isHTML(true);
 	$mail->Body = $body;
-	$mail->addAddress($to, $to_name);
+  $mail->CharSet = 'UTF-8';
+	$mail->addAddress($to);
 	if(!$mail->Send()) {
 		return 'Mail error: '.$mail->ErrorInfo;
 	} else {
@@ -44,12 +45,12 @@ function sendmail() {
     echo json_encode(['message' => 'Please fill in the mandatory fields of the form.']);
   }
   // we declare variables
-  $to = htmlspecialchars(strip_tags($request->email));
+  $to = htmlspecialchars(strip_tags($request->to));
+  $email = htmlspecialchars(strip_tags($request->email));
   $lastName = htmlspecialchars(strip_tags($request->lastName));
   $firstName = htmlspecialchars(strip_tags($request->firstName));
   $company = htmlspecialchars(strip_tags($request->company));
   $mobile = htmlspecialchars(strip_tags($request->mobile));
-  $to_name = $firstName . ' ' . $lastName;
   $subject = 'Formulaire de contact';
   $message = htmlspecialchars(strip_tags($request->message));
   $body = "
@@ -71,6 +72,9 @@ function sendmail() {
       <p>
         Mobile : {$mobile}
       </p>
+      <p>
+        Email : {$email}
+      </p>
       <div>
         <blockquote>
           {$message}
@@ -81,11 +85,7 @@ function sendmail() {
   ";
 
   // send mail
-  $result = smtpmailer($to, $to_name, MAIL_USER, $subject, $body);
-
-  $test['code'] = 200;
-  $test['message'] = $result;
-  echo json_encode($test);
+  $result = smtpmailer($to, $subject, $body);
 
   if ($result !== true) {
     // erreur -- traiter l'erreur
