@@ -10,6 +10,8 @@ $method = $_SERVER['REQUEST_METHOD'];
 // echo $url[2];
 // echo $method;
 
+echo $_ENV[USER_MAIL];
+
 try {
   if($url[1] === "api") {
     switch($url[2]) {
