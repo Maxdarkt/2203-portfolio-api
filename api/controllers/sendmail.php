@@ -9,7 +9,7 @@ require_once __DIR__ . '/../../src/PHPMailer-master/src/SMTP.php';
 function smtpMailer($to, $subject, $body) {
 	$mail = new PHPMailer();  // Cree un nouvel objet PHPMailer
 	$mail->isSMTP(); // active SMTP
-	$mail->SMTPDebug = 0;  // debogage: 1 = Erreurs et messages, 2 = messages seulement
+	$mail->SMTPDebug = 2;  // debogage: 1 = Erreurs et messages, 2 = messages seulement
 	$mail->Host = 'smtp.hostinger.com';
   $mail->Port = 587;
 	$mail->SMTPAuth = true;  // Authentification SMTP active
