@@ -9,8 +9,7 @@ $method = $_SERVER['REQUEST_METHOD'];
 
 // echo $url[2];
 // echo $method;
-
-echo $_ENV[USER_MAIL];
+echo $_SERVER['REQUEST_URI'];
 
 try {
   if($url[1] === "api") {

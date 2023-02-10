@@ -15,8 +15,8 @@ function smtpMailer($to, $subject, $body) {
 	$mail->SMTPAuth = true;  // Authentification SMTP active
   // $mail->SMTPAutoTLS = false;
 	// $mail->SMTPSecure = 'ssl'; // Gmail REQUIERT Le transfert securise
-	$mail->Username = MAIL_USER;
-	$mail->Password = MAIL_PASS;
+	$mail->Username = getenv("MAIL_USER");
+	$mail->Password = getenv("MAIL_PASS");
 	$mail->setFrom(MAIL_USER, "MT-DEVELOP");
 	$mail->Subject = $subject;
   $mail->isHTML(true);
