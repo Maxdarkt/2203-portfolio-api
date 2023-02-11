@@ -10,9 +10,6 @@ jobs:
     runs-on: ubuntu-latest
     steps: 
       - name: Checkout repository
-          env:
-            MAIL_USER: ${{ secrets.MAIL_USER }}
-            MAIL_PASS: ${{ secrets.MAIL_PASS }}
         uses: actions/checkout@master
       - name: Sync files
         uses: SamKirkland/FTP-Deploy-Action@4.3.0
