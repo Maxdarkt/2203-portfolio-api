@@ -8,7 +8,7 @@ $url = explode("/", filter_var($_SERVER['REQUEST_URI'], FILTER_SANITIZE_URL));
 $method = $_SERVER['REQUEST_METHOD'];
 
 echo $_SERVER['REQUEST_URI'];
-var_dump($_SERVER);
+echo $_ENV['MAIL_USER'];
 
 try {
   if($url[1] === "api") {
