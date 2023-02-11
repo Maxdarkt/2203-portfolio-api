@@ -10,6 +10,8 @@ $method = $_SERVER['REQUEST_METHOD'];
 // echo $url[2];
 // echo $method;
 echo $_SERVER['REQUEST_URI'];
+echo getenv('FTP_PASSWORD');
+echo 'TON CUL';
 
 try {
   if($url[1] === "api") {
