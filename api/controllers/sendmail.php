@@ -109,6 +109,7 @@ function sendmail() {
     http_response_code(500);
     $response['code'] = 500;
     $response['message'] = $result;
+    $response['env'] = $_ENV;
     echo json_encode($response);
   } else {
     http_response_code(200);
