@@ -7,11 +7,8 @@ cors();
 $url = explode("/", filter_var($_SERVER['REQUEST_URI'], FILTER_SANITIZE_URL));
 $method = $_SERVER['REQUEST_METHOD'];
 
-// echo $url[2];
-// echo $method;
 echo $_SERVER['REQUEST_URI'];
-echo getenv('FTP_PASSWORD');
-echo 'TON CUL';
+var_dump($_SERVER);
 
 try {
   if($url[1] === "api") {

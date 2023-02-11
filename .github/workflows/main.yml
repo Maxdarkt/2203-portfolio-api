@@ -11,6 +11,9 @@ jobs:
     steps: 
       - name: Checkout repository
         uses: actions/checkout@master
+        environment:
+          MAIL_USER: ${{ secrets.MAIL_USER }}
+          MAIL_PASS: ${{ secrets.MAIL_PASS }}
       - name: Sync files
         uses: SamKirkland/FTP-Deploy-Action@4.3.0
         with:
