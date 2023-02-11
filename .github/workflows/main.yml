@@ -3,8 +3,9 @@ on:
   push:
     branches: [master]
   workflow_dispatch:
-  
+
 env:
+  ENV_MODE: 'production'
   MAIL_USER: ${{ secrets.MAIL_USER }}
   MAIL_PASS: ${{ secrets.MAIL_PASS }}
 

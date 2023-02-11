@@ -5,6 +5,9 @@ require_once __DIR__ . '/../../src/PHPMailer-master/src/Exception.php';
 require_once __DIR__ . '/../../src/PHPMailer-master/src/PHPMailer.php';
 require_once __DIR__ . '/../../src/PHPMailer-master/src/SMTP.php';
 
+$_MAIL_USER = $_ENV['MAIL_USER'] ?? MAIL_USER;
+$_MAIL_PASS = $_ENV['MAIL_PASS'] ?? MAIL_PASS;
+
 // function smtp PHPMailer
 function smtpMailer($to, $subject, $body) {
 	$mail = new PHPMailer();  // Cree un nouvel objet PHPMailer
@@ -15,8 +18,8 @@ function smtpMailer($to, $subject, $body) {
 	$mail->SMTPAuth = true;  // Authentification SMTP active
   // $mail->SMTPAutoTLS = false;
 	// $mail->SMTPSecure = 'ssl'; // Gmail REQUIERT Le transfert securise
-	$mail->Username = MAIL_USER;
-	$mail->Password = MAIL_PASS;
+	$mail->Username = $_MAIL_USER;
+	$mail->Password = $_MAIL_PASS;
 	$mail->setFrom(MAIL_USER, "MT-DEVELOP");
 	$mail->Subject = $subject;
   $mail->isHTML(true);
